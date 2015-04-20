@@ -43,7 +43,7 @@ for i=1:nt
     waitbar(i/nt)
     mov=imread(fn,i);
     mov3=repmat(mov,[1,1,nf]);
-    framesig=squeeze(sum(sum(mov3.*ica_segments,1),2));
+    framesig=squeeze(sum(sum(mov3.*uint16(ica_segments),1),2));
     cell_sig(:,i)=framesig;
     
 end

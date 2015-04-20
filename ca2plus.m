@@ -137,12 +137,15 @@ if saveagain==1
 end
 
 % Save calcium transients
-subplot_plan=[6,6,1];
-fileoutput = pdfplot2( final_cell_sig, subplot_plan, [fn(1:end-4),'.pdf'],...
-    PC_or_not, export_path);
+% subplot_plan=[6,6,1];
+% fileoutput = pdfplot2( final_cell_sig, subplot_plan, [fn(1:end-4),'.pdf'],...
+%     PC_or_not, export_path);
 
 % Eliminate extra variables
-keep export_path fileoutput final_cell_segments final_cell_sig fn_full fn
+keep export_path final_cell_segments final_cell_sig fn_full fn %fileoutput 
+
+
+    save(fullfile(export_path,[fn(1:end-4),'_reduced.mat']));
 
 %% 7a. Export the segments
 
@@ -189,3 +192,8 @@ set(101,'Position',[40,60,1300,600])
 export_fig(fullfile(export_path,[fn(1:end-4),'.png']))
 
 close(101)
+
+
+
+
+

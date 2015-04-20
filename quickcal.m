@@ -9,7 +9,7 @@ userpoly = getpoly(mat2gray(initialim));
 
 area = sum(userpoly(:));
 
-nframes = 60;
+nframes = 300;
 
 intensityvec = zeros(nframes,1);
 
