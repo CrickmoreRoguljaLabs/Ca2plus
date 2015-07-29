@@ -63,7 +63,7 @@ if YesNo==1
     %handles.segcentroid=evalin('base','segcentroid');
     handles.fn=evalin('base','fn');
     handles.totalfilters=size(handles.ica_segments,1);
-    sampleim=6*imread(handles.fn,1);
+    sampleim=mat2gray(imread(handles.fn,1));
 else
     msgbox('Please make sure CellSort data are loaded to workspace','Need data to initiate');
 end
@@ -103,8 +103,8 @@ set(handles.edit1,'String',[num2str(handles.filterindex),'/',num2str(handles.tot
 
 handles.filtertoshow(:,:,1)=handles.maxpixel * handles.maxpixelmod*(handles.ica_segments(handles.filterindex,:,:)>0);
 handles.allfilters(:,:,1)=handles.maxpixel * handles.maxpixelmod*(handles.ica_segments(handles.filterindex,:,:)>0);
-imshow(handles.filtertoshow, 'Parent', handles.axes1,'DisplayRange',[1, handles.maxpixel])
-imshow(handles.allfilters, 'Parent', handles.axes2,'DisplayRange',[1, handles.maxpixel])
+imshow(handles.filtertoshow, 'Parent', handles.axes1)
+imshow(handles.allfilters, 'Parent', handles.axes2)
 
 set(handles.listbox1,'String',strcat(num2str(handles.pass_or_fail(:,1)),txtspaceholder,num2str(handles.pass_or_fail(:,2))));
 
@@ -154,8 +154,8 @@ end
 
 handles.filtertoshow(:,:,1)=handles.maxpixel * handles.maxpixelmod*(handles.ica_segments(handles.filterindex,:,:)>0);
 handles.allfilters(:,:,1)=handles.maxpixel * handles.maxpixelmod*(handles.ica_segments(handles.filterindex,:,:)>0);
-imshow(handles.filtertoshow, 'Parent', handles.axes1, 'DisplayRange',[1, handles.maxpixel])
-imshow(handles.allfilters, 'Parent', handles.axes2, 'DisplayRange',[1, handles.maxpixel])
+imshow(handles.filtertoshow, 'Parent', handles.axes1)
+imshow(handles.allfilters, 'Parent', handles.axes2)
 set(handles.edit1,'String',[num2str(handles.filterindex),'/',num2str(handles.totalfilters)]);
 set(handles.filterslider,'Value',handles.filterindex);
 assignin('base', 'pass_or_fail', handles.pass_or_fail);
@@ -190,8 +190,8 @@ end
 
 handles.filtertoshow(:,:,1)=handles.maxpixel * handles.maxpixelmod*(handles.ica_segments(handles.filterindex,:,:)>0);
 handles.allfilters(:,:,1)=handles.maxpixel * handles.maxpixelmod*(handles.ica_segments(handles.filterindex,:,:)>0);
-imshow(handles.filtertoshow, 'Parent', handles.axes1, 'DisplayRange', [1, handles.maxpixel])
-imshow(handles.allfilters, 'Parent', handles.axes2, 'DisplayRange', [1, handles.maxpixel])
+imshow(handles.filtertoshow, 'Parent', handles.axes1)
+imshow(handles.allfilters, 'Parent', handles.axes2)
 set(handles.edit1,'String',[num2str(handles.filterindex),'/',num2str(handles.totalfilters)]);
 set(handles.filterslider,'Value',handles.filterindex);
 assignin('base', 'pass_or_fail', handles.pass_or_fail);
@@ -245,8 +245,8 @@ function filterslider_Callback(hObject, ~, handles)
 handles.filterindex=round(get(hObject,'Value'));
 handles.filtertoshow(:,:,1)=handles.maxpixel * handles.maxpixelmod*(handles.ica_segments(handles.filterindex,:,:)>0);
 handles.allfilters(:,:,1)=handles.maxpixel * handles.maxpixelmod*(handles.ica_segments(handles.filterindex,:,:)>0);
-imshow(handles.filtertoshow, 'Parent', handles.axes1, 'DisplayRange',[1, handles.maxpixel])
-imshow(handles.allfilters, 'Parent', handles.axes2, 'DisplayRange',[1, handles.maxpixel])
+imshow(handles.filtertoshow, 'Parent', handles.axes1)
+imshow(handles.allfilters, 'Parent', handles.axes2)
 set(handles.edit1,'String',[num2str(handles.filterindex),'/',num2str(handles.totalfilters)]);
 set(handles.listbox1,'Value',handles.filterindex);
 
@@ -279,8 +279,8 @@ function listbox1_Callback(hObject, ~, handles)
 handles.filterindex=get(handles.listbox1,'Value');
 handles.filtertoshow(:,:,1)=handles.maxpixel * handles.maxpixelmod*(handles.ica_segments(handles.filterindex,:,:)>0);
 handles.allfilters(:,:,1)=handles.maxpixel * handles.maxpixelmod*(handles.ica_segments(handles.filterindex,:,:)>0);
-imshow(handles.filtertoshow, 'Parent', handles.axes1, 'DisplayRange',[1, handles.maxpixel])
-imshow(handles.allfilters, 'Parent', handles.axes2, 'DisplayRange',[1, handles.maxpixel])
+imshow(handles.filtertoshow, 'Parent', handles.axes1)
+imshow(handles.allfilters, 'Parent', handles.axes2)
 set(handles.edit1,'String',[num2str(handles.filterindex),'/',num2str(handles.totalfilters)]);
 set(handles.filterslider,'Value',handles.filterindex);
 
@@ -317,7 +317,7 @@ set(handles.listbox1,'Value',handles.filterindex);
 assignin('base', 'pass_or_fail', handles.pass_or_fail);
 handles.pastfilters=0;
 handles.filtertoshow(:,:,3)=handles.pastfilters;
-imshow(handles.filtertoshow, 'Parent', handles.axes1,'DisplayRange',[1, handles.maxpixel])
+imshow(handles.filtertoshow, 'Parent', handles.axes1)
 
 set( handles.pushbuttonclear, 'Enable', 'off');
 drawnow;
@@ -341,7 +341,7 @@ if undone <=0
     handles.finalfilters=handles.allfilters;
     handles.finalfilters(:,:,3)=0;
     handles.finalfilters(:,:,1)=squeeze(sum(handles.real_ica_segments>0,3))*100;
-    imshow(handles.finalfilters, 'Parent', handles.axes1,'DisplayRange',[1, handles.maxpixel])
+    imshow(handles.finalfilters, 'Parent', handles.axes1)
     set(handles.pushbuttonoverlap,'Enable','on')
     set(handles.pushbuttongen,'Enable','on')
     handles.checked=1;
@@ -368,7 +368,7 @@ for i=1:size(handles.real_ica_segments,3)
     handles.real_ica_segments(:,:,i)=temp_ica_seg;
 end
 handles.finalfilters(:,:,1)=squeeze(sum(handles.real_ica_segments>0,3))*100;
-imshow(handles.finalfilters, 'Parent', handles.axes1,'DisplayRange',[1, handles.maxpixel])
+imshow(handles.finalfilters, 'Parent', handles.axes1)
 handles.overlapcleared=1;
 
 set( handles.pushbuttonoverlap, 'Enable', 'off');
@@ -414,7 +414,7 @@ currentfilter=squeeze(handles.ica_segments(handles.filterindex,:,:)>0);
 currentfilter(cutpixels>0)=0;
 handles.ica_segments(handles.filterindex,:,:)=currentfilter;
 handles.filtertoshow(:,:,1)=handles.maxpixel * handles.maxpixelmod*(handles.ica_segments(handles.filterindex,:,:)>0);
-imshow(handles.filtertoshow, 'Parent', handles.axes1,'DisplayRange',[1, handles.maxpixel])
+imshow(handles.filtertoshow, 'Parent', handles.axes1)
 
 set( handles.pushbuttoncut, 'Enable', 'off');
 drawnow;

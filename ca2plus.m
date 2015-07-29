@@ -150,13 +150,13 @@ keep export_path final_cell_segments final_cell_sig fn_full fn %fileoutput
 %% 7a. Export the segments
 
 % Read the first frame as background
-centroid_im = imread(fn_full,1);
+centroid_im = mat2gray(imread(fn_full,1));
 
 % Prepare other channels to label segments
 centroid_im = repmat(centroid_im,[1,1,3]);
 
 % Use channel 3 to label segments
-centroid_im(:,:,3) = sum(final_cell_segments,3)*80;
+centroid_im(:,:,3) = sum(final_cell_segments,3);
 
 % Empty Channel 1 to write texts
 centroid_im(:,:,1) = centroid_im(:,:,1) * 0;
