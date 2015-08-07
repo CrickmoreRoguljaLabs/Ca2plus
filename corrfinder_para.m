@@ -1,4 +1,4 @@
-function map = corrfinder(intensityvec, shrinkfraction)
+function map = corrfinder_para(intensityvec, shrinkfraction)
 % corrfinder finds the pixels in a movie that have the best correlation.
 % with a input vector. A shrink fraction is added to resize the stack to
 % accelerate processing.
@@ -7,7 +7,7 @@ function map = corrfinder(intensityvec, shrinkfraction)
 % Default shrink to 30%, which corresponds to ~45 processing time for a 300
 % frame stack (640 x 384).
 if nargin < 2
-    shrinkfraction = 0.3;
+    shrinkfraction = 0.5;
 end
 
 % Get this variable directly from the base workspace
@@ -40,40 +40,79 @@ stack2 = imresize(stack, shrinkfraction);
 
 %% Find correlation map
 
+% Start parallel pool
+%pool = parpool(2);
+
 % Prime the map matrix
 map = double(stack2(:,:,1));
 
 % Prime the waitbar
-hwait = waitbar(0, 'Processing');
+%hwait = waitbar(0, 'Processing');
 
 % Find out how many rows and columns to be processed
 nrow = size(stack2, 1);
 
 ncol = size(stack2, 2);
 
-% For each row, process the pixels of each column
-for i = 1 : nrow
+% tic
+% % For each row, process the pixels of each column
+% for i = 1 : nrow
+%     
+%     % Update waitbar
+%     waitbar(i/nrow);
+%     
+%     parfor j = 1 : ncol
+%         % Find the signal of the pixel
+%         sig = squeeze(stack2(i,j,:));
+%         
+%         % Find the correlation coefficient
+%         coefmat = corrcoef(mat2gray(intensityvec) , mat2gray(sig));
+%         
+%         % Enter the coefficient to the map
+%         map(i,j) = coefmat(2,1);
+%     end
+%     
+%     % imshow(map,[])
+%     
+% end
+% toc
+% 
+% close(hwait)
 
-    for j = 1 : ncol
+%delete(pool)
+
+%hwait = ProgressBar(ncol*nrow);
+
+pool = parpool(2);
+
+tic
+% For each row, process the pixels of each column
+parfor ind = 1 : ncol*nrow
+        i = mod(ind, nrow);
         
-        % Update waitbar
-        waitbar((i*ncol + j)/nrow/ncol);
+        if i == 0
+            i = nrow;
+        end
         
+        j = ceil(ind/nrow);
+
         % Find the signal of the pixel
-        sig = squeeze(stack2(i,j,:));
+        sig = squeeze(stack2(i,j,:)); %#ok<PFBNS>
         
         % Find the correlation coefficient
         coefmat = corrcoef(mat2gray(intensityvec) , mat2gray(sig));
         
         % Enter the coefficient to the map
-        map(i,j) = coefmat(2,1);
-    end
+        map(ind) = coefmat(2,1);
     
     % imshow(map,[])
     
 end
+toc
 
-close(hwait)
+delete(pool)
+
+
 
 %% Output the RGB for view
 

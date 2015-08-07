@@ -1,19 +1,19 @@
-function [ ] = corrview1( num1, num2)
+function [int, lag ] = corrview1( num1, num2)
 % corrvew1 shows a single pair of cross correlation between two signals.
 %   corrview1( num1, num2)
 
 % Input the following variables directly from base
-final_cell_sig = evalin('final_cell_sig','fn');
-final_cell_segments = evalin('final_cell_segments','fn');
-fn = evalin('fn','fn');
+final_cell_sig = evalin('base','final_cell_sig');
+final_cell_segments = evalin('base','final_cell_segments');
+fn = evalin('base','fn');
 
 
 % Read out the signals of the two ROIs
-s1 = final_cell_sig(num1,:);
+s1 = final_cell_sig(num1,51:end);
 
 s1 = mat2gray(s1);
 
-s2 = final_cell_sig(num2,:);%t1:t2);
+s2 = final_cell_sig(num2,51:end);%t1:t2);
 
 s2 = mat2gray(s2);
 
@@ -21,11 +21,11 @@ s2 = mat2gray(s2);
 [int , lag] = xcorr(s1-mean(s1) , s2-mean(s2));
 
 % Use a sample image to determine how bright the pixels should be
-sampleim = imread(fn);
+sampleim = mat2gray(imread(fn));
 
-maxpixel = max(sampleim(:));
+%maxpixel = max(sampleim(:));
 
-multiplier = 2^16 / maxpixel;
+multiplier = 1;
 
 sampleim = multiplier * sampleim;
 
@@ -40,9 +40,9 @@ roi1(:,:,3)=0;
 
 roi2 = roi1;
 
-roi1(:,:,1) = uint16(final_cell_segments(:,:,num1))*maxpixel2;
+roi1(:,:,1) = uint16(final_cell_segments(:,:,num1))*uint16(maxpixel2);
 
-roi2(:,:,1) = uint16(final_cell_segments(:,:,num2))*maxpixel2;
+roi2(:,:,1) = uint16(final_cell_segments(:,:,num2))*uint16(maxpixel2);
 
 % Make the figure
 h1 = figure('Position',[50,50,1200,620]);
