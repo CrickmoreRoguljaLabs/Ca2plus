@@ -1,6 +1,6 @@
 function [ output_mat ] = arearank( input_mat, dim, Descend_is_1 )
 %arearank Rank a 3-D matrix based on the areas.
-%   Detailed explanation goes here
+%   [ output_mat ] = arearank( input_mat, dim, Descend_is_1 )
 if nargin<3
     Descend_is_1=1;
     

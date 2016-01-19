@@ -1,7 +1,8 @@
 %% ca2plus
 % Stephen Zhang
 % February 11, 2014 - April 8, 2014
-% Re-writing Dec 15, 2014 - 
+% Re-wrote Dec 15, 2014
+% Modified again Jan 18, 2016
 % xzhang03@fas.harvard.edu
 
 % Modified from Cellsort
@@ -34,6 +35,7 @@ fn_full = fullfile(vidpath,fn);
 
 % Temporarily add the path
 addpath(vidpath);
+
 
 %% 1. PCA
 
@@ -142,10 +144,11 @@ end
 %     PC_or_not, export_path);
 
 % Eliminate extra variables
-keep export_path final_cell_segments final_cell_sig fn_full fn %fileoutput 
 
+keep export_path final_cell_segments final_cell_sig fn_full fn
 
-    save(fullfile(export_path,[fn(1:end-4),'_reduced.mat']));
+% Save the concise format
+save(fullfile(export_path,[fn(1:end-4),'_reduced.mat']));
 
 %% 7a. Export the segments
 

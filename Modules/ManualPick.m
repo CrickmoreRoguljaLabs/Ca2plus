@@ -384,19 +384,20 @@ function pushbuttongen_Callback(~, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 real_ica_segments=handles.real_ica_segments>0;
 real_ica_segments2=real_ica_segments;
-real_ica_count=1;
-for i=1:size(real_ica_segments,3)
-    [labeled_objects,num_of_objects]=bwlabel(real_ica_segments(:,:,i),4);
-    if num_of_objects>1
-        for j=1:num_of_objects
-            real_ica_segments2(:,:,real_ica_count)=labeled_objects==j;
-            real_ica_count=real_ica_count+1;
-        end
-    elseif num_of_objects==1
-        real_ica_segments2(:,:,real_ica_count)=labeled_objects>0;
-        real_ica_count=real_ica_count+1;
-    end
-end
+% real_ica_count=1;
+% for i=1:size(real_ica_segments,3)
+%     [labeled_objects,num_of_objects]=bwlabel(real_ica_segments(:,:,i),4);
+%     if num_of_objects>1
+%         
+%         for j=1:num_of_objects
+%             real_ica_segments2(:,:,real_ica_count)=labeled_objects==j;
+%             real_ica_count=real_ica_count+1;
+%         end
+%     elseif num_of_objects==1
+%         real_ica_segments2(:,:,real_ica_count)=labeled_objects>0;
+%         real_ica_count=real_ica_count+1;
+%     end
+% end
 
 set( handles.pushbuttongen, 'Enable', 'off');
 drawnow;
