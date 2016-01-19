@@ -27,9 +27,12 @@ for i = 1 : size(final_cell_segments, 3)
     % Get filter signal
     sig2(i,2:end) = CellsortApplyFilter2(fn_full2, final_cell_segments(:,:,i),...
         0 ,fn2)/sig2(i, 1);
+    
+    % Smooth signal (just for now)
+    sig2(i,2:end) = smooth(sig2(i,2:end), 3);
 end
 
 % Plot
 figure('Name',fn2)
-plot(sig2(:,2:end)')
+plot((sig2(:,2:end)./ repmat(sig2(:,2), [1 n_frames]))')
 legend('toggle')
