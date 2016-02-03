@@ -1,20 +1,20 @@
-[filename, pathname] = uigetfile('*.tif');
+[filename, pathname] = uigetfile('C:\Users\Stephen Zhang\Desktop\New folder\*.tif');
 addpath(pathname)
-fullfilename = fullfile(pathname,filename);
+fn_full = fullfile(pathname,filename);
 
-initialim = imread(fullfilename,1);
+initialim = imread(fn_full,30);
 %imshow(mat2gray(initialim))
 
 userpoly = getpoly(mat2gray(initialim));
 
 area = sum(userpoly(:));
 
-nframes = 300;
+n_frames = length(imfinfo(fn_full));
 
-intensityvec = zeros(nframes,1);
+intensityvec = zeros(n_frames,1);
 
-for i=1:nframes
-    tempim = imread(fullfilename,i);
+for i=1:n_frames
+    tempim = imread(fn_full,i);
     intensityvec(i) = mean(tempim(userpoly));
 end
 
