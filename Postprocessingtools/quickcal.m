@@ -5,7 +5,7 @@ fn_full = fullfile(pathname,filename);
 initialim = imread(fn_full,30);
 %imshow(mat2gray(initialim))
 
-userpoly = getpoly(mat2gray(initialim));
+userpoly = getpoly(mat2gray(initialim)*2);
 
 area = sum(userpoly(:));
 
@@ -18,4 +18,8 @@ for i=1:n_frames
     intensityvec(i) = mean(tempim(userpoly));
 end
 
-plot(intensityvec)
+[~, stimstart] = max(diff(intensityvec));
+
+intensityvec_n = intensityvec/intensityvec(stimstart);
+
+plotyy(1:n_frames,intensityvec,1:n_frames,intensityvec_n)

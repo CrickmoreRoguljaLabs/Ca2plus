@@ -42,11 +42,11 @@ for i = 1 : n_traces
     X = (1:i_end-i_ini+1)' * t_int;
     
     % Write general fit
-    g = fittype('a*exp(b*x)+c');
+    g = fittype('a*exp(x/b)+c');
     
     % Find fit
     [fx, fx_eval]=fit(X,...
-        data(i_ini:i_end), g, 'startpoint', [0.4 -0.2 1]);
+        data(i_ini:i_end), g, 'startpoint', [0.4 -2 1]);
     
     
     % Extract results
