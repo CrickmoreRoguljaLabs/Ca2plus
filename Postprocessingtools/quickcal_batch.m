@@ -88,10 +88,12 @@ end
 
 %% Normalize
 B=(SMPa./repmat(SMPa(:,24),[1, 100]))';
-C=reshape(B,[100,2,6]);
+C=reshape(B,[100,2,nfiles/2]);
 C = squeeze(mean(C,2));
 
 plot(C)
 set(gca,'yLim',[0.5 2])
 
-save([fn_full(1:end-20),'_analyzed.mat'])
+save([fn_full(1:end-18),'_analyzed.mat'])
+
+C(end,:)
