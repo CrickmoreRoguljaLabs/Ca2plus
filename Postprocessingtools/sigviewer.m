@@ -10,10 +10,13 @@ sample2show(:,:,3) = 0;
 
 page = 1;
 
+n_rois =size(final_cell_sig,1);
+
 % 0 to jump out of the page or it goes to the page.
 while page > 0
     
-    sample2show(:,:,1) = uint16(final_cell_segments(:,:,page));
+    sample2show(:,:,1) = uint16(final_cell_segments(:,:,...
+        page));
     
     subplot(2,4,1)
     
@@ -39,9 +42,11 @@ while page > 0
     
     subplot(2,4,5:8)
     
-    plot(mat2gray(final_cell_sig(page,:)));
+    plot(mat2gray(final_cell_sig( min(page,n_rois),:)));
     
-    page = input('What page to jump to? = ');
+    text(5,0.9,['Page ', num2str(page)])
+    
+    page = min(input('What page to jump to? = '),n_rois);
     
 end
 

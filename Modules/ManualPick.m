@@ -432,6 +432,7 @@ function figure1_KeyPressFcn(hObject, eventdata, handles)
 %	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
 % handles    structure with handles and user data (see GUIDATA)
 switch eventdata.Key
+
     case 'd'
         pushbuttonpass_Callback(hObject, [], handles);
     case 'f'
@@ -448,8 +449,8 @@ switch eventdata.Key
         if handles.checked==1
             pushbuttongen_Callback([], [], handles)
         end
-    case 3
+    case 'p'
         pushbuttonclear_Callback(hObject, [], handles) % Ctrl+c
-    case 5
+    case 'a'
         pushbuttonexit_Callback([], [], []) %Ctrl+e
 end

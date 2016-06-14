@@ -3,6 +3,7 @@
 % February 11, 2014 - April 8, 2014
 % Re-wrote Dec 15, 2014
 % Modified again Jan 18, 2016
+% And again June 14, 2016
 % xzhang03@fas.harvard.edu
 
 % Modified from Cellsort
@@ -11,6 +12,9 @@
 % eran@post.harvard.edu
 
 %% 0. Initiation
+
+% Determine if autopilot or not
+autopilot = 1;
 
 % Label batch processing and read the batch processing parameter file 
 settings_file = importdata('cal2plus_settings.csv');
@@ -26,6 +30,15 @@ export_path = export_path(strfind(export_path, ',')+1:end);
 % Determine whether a computer is a PC or not
 PC_or_not = settings_file{3};
 PC_or_not = PC_or_not(strfind(PC_or_not, ',')+1:end)=='Y';
+
+% Threshold in terms of standard deviations for post-ICA segmentation
+thresh = settings_file{4};
+thresh = str2double(thresh(strfind(thresh, ',')+1:end));
+
+% Area threshold for post-ICA segmentation
+arealims = settings_file{5};
+arealims = str2double(arealims(strfind(arealims, ',')+1:end));
+
 
 % Obtain the video file
 [fn, vidpath]  =  uigetfile(genvidpath); % This address should be changed according to the user
@@ -43,12 +56,15 @@ nPCs = 200;
 flims = [];
 
 [mixedsig, mixedfilters, CovEvals, covtrace, movm, movtm] = ...
-    CellsortPCA(fn_full, flims, nPCs, [], [], []);%,polyfocus);
+    CellsortPCA(fn_full, flims, nPCs, [], [], [24,25]);
 
 %% 2a. Choose PCs
-
-[PCuse] = CellsortChoosePCs(fn_full, mixedfilters);
-close gcf
+if autopilot == 1
+    PCuse = 1; % Default only use the first PC
+else
+    [PCuse] = CellsortChoosePCs(fn_full, mixedfilters);
+    close gcf
+end
 
 %% 2b. PCA postprocessing
 % Separate out the positive from the negative components and make both
@@ -92,8 +108,6 @@ mu = 0.5;
 %% 4a. Segment contiguous regions within ICs
 % Obtain the ICA segmentations and apply area threshold
 smwidth = 2;
-thresh = 2;
-arealims = 20; %Area threshold
 plotting = 0;
 
 [ica_segments, segmentlabel, segcentroid] = CellsortSegmentation(ica_filters, smwidth, thresh, arealims, plotting);
@@ -102,10 +116,12 @@ plotting = 0;
 ica_segments = arearank(ica_segments,1,1);
 [ica_segments, ica_centroids]=filter_redundant(ica_segments, 10,[]);
 %% 4b. Manual pick segmented regions
-
-manualpickgui = ManualPick;
-uiwait(manualpickgui);
-
+if autopilot == 0
+    real_ica_segments = weirdmatrearrange3(ica_segments); % Default to pass all ROIs
+else
+    manualpickgui = ManualPick;
+    uiwait(manualpickgui);
+end
 % Apply selection to centroids
 % ica_centroids = ica_centroids(pass_or_fail(:,2) > 1 , :);
 
@@ -118,9 +134,18 @@ cell_sig = CellsortApplyFilter2(fn, real_ica_segments, subtractmean,'Applying se
 cell_sig=cell_sig./repmat(ica_areas,[1,size(cell_sig,2)]);
 
 %% 5a. Final selection
-% Select the traces
-traceselectgui = TraceSelect;
-uiwait(traceselectgui);
+
+% Default to pass all signals
+if autopilot == 1
+    traces_select_or_not = ones(size(real_ica_segments,3),1);
+    final_cell_segments = real_ica_segments;
+    final_cell_sig = cell_sig;
+else
+
+    % Select the traces
+    traceselectgui = TraceSelect;
+    uiwait(traceselectgui);
+end
 
 % Apply selection to centroids
 % final_ica_centroids = ica_centroids(traces_select_or_not>0,:);
