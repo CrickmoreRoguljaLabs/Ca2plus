@@ -20,7 +20,7 @@ fn_full2 = fullfile(vidpath,fn2);
 n_frames = length(imfinfo(fn_full2));
 
 % Prime the signal matrix (first column represent the size of the filters)
-sig2 = zeros(1, n_frames + 1);
+sig2 = zeros(n_frames + 1,1);
 
 % Combine the filters
 synsfilter = max(final_cell_segments(:,:,filters2choose),[],3);
@@ -32,11 +32,11 @@ sig2(1) = sum(synsfilter(:));
 
 % Get filter signal
 sig2(2:end) = CellsortApplyFilter2(fn_full2, synsfilter,...
-    0 ,fn2)'/sig2(1);
+    0 ,fn2)/sig2(1);
 
 % Plot
 figure('Name',fn2)
-plot((sig2(:,2:end)./ repmat(sig2(:,2), [1 n_frames]))')
+plot(sig2(2:end)./ sig2(2))
 legend('toggle')
 
-ylim([0.9 1.2])
+ylim([0.9 3])

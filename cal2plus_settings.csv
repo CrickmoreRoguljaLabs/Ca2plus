@@ -1,4 +1,4 @@
-Video direction,C:\Users\Stephen Zhang\Documents\MATLAB\Calcium Videos\*.tif
+Video direction,C:\Users\steph\Desktop\*.tif
 Outpur direction,C:\Users\steph\OneDrive\Documents\MATLAB\cellsort_preprocessed_data\
 PC(i.e. ghostscript)? Y/N,Y
 Signal threshold (post-ICA segmentation),1

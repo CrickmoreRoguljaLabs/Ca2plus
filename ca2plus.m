@@ -16,6 +16,9 @@
 % Determine if autopilot or not
 autopilot = 1;
 
+% Bad frames
+badframes = [24,25];
+
 % Label batch processing and read the batch processing parameter file 
 settings_file = importdata('cal2plus_settings.csv');
 
@@ -56,7 +59,7 @@ nPCs = 200;
 flims = [];
 
 [mixedsig, mixedfilters, CovEvals, covtrace, movm, movtm] = ...
-    CellsortPCA(fn_full, flims, nPCs, [], [], [24,25]);
+    CellsortPCA(fn_full, flims, nPCs, [], [], badframes);
 
 %% 2a. Choose PCs
 if autopilot == 1
@@ -116,7 +119,7 @@ plotting = 0;
 ica_segments = arearank(ica_segments,1,1);
 [ica_segments, ica_centroids]=filter_redundant(ica_segments, 10,[]);
 %% 4b. Manual pick segmented regions
-if autopilot == 0
+if autopilot == 1
     real_ica_segments = weirdmatrearrange3(ica_segments); % Default to pass all ROIs
 else
     manualpickgui = ManualPick;
