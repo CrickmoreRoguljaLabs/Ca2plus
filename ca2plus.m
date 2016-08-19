@@ -14,10 +14,10 @@
 %% 0. Initiation
 
 % Determine if autopilot or not
-autopilot = 1;
+autopilot = 0;
 
 % Bad frames
-badframes = [24,25];
+badframes = [1:25];
 
 % Label batch processing and read the batch processing parameter file 
 settings_file = importdata('cal2plus_settings.csv');
@@ -134,6 +134,7 @@ subtractmean = 0;
 real_ica_segments=uint8(real_ica_segments>0);
 ica_areas=squeeze(sum(sum(real_ica_segments,1),2));
 cell_sig = CellsortApplyFilter2(fn, real_ica_segments, subtractmean,'Applying segments');
+cell_sig(:,badframes) = NaN;
 cell_sig=cell_sig./repmat(ica_areas,[1,size(cell_sig,2)]);
 
 %% 5a. Final selection

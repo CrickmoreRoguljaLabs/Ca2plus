@@ -5,7 +5,7 @@ fn_full = fullfile(pathname,filename);
 initialim = imread(fn_full,30);
 %imshow(mat2gray(initialim))
 
-userpoly = getpoly(mat2gray(initialim)*2);
+userpoly = getpoly(mat2gray(initialim));
 
 area = sum(userpoly(:));
 
