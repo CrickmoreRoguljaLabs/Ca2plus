@@ -8,7 +8,7 @@ if nargin < 2
 end
 
 % Show the image
-figure( 101 ), imshow( inputim );
+figure( 101 ), imshow( inputim ,[]);
 set(101,'Position',[50 50 1600 600])
 
 

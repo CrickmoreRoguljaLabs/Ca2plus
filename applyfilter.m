@@ -31,8 +31,9 @@ for i = 1 : size(final_cell_segments, 3)
     % Smooth signal (just for now)
     sig2(i,2:end) = smooth(sig2(i,2:end), 3);
 end
-
+%%
 % Plot
 figure('Name',fn2)
-plot((sig2(:,2:end)./ repmat(sig2(:,2), [1 n_frames]))')
+plot((sig2(:,2:end)./ repmat(sig2(:,24), [1 n_frames]))')
 legend('toggle')
+ylim([0 4])
