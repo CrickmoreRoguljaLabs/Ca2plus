@@ -16,8 +16,8 @@
 % Determine if autopilot or not
 autopilot = 0;
 
-% Bad frames
-badframes = [60:70];
+% Bad frames (add if needed)
+badframes = [];
 
 % Label batch processing and read the batch processing parameter file 
 settings_file = importdata('cal2plus_settings.csv');
