@@ -17,7 +17,7 @@
 autopilot = 0;
 
 % Bad frames
-badframes = [1:25];
+badframes = [60:70];
 
 % Label batch processing and read the batch processing parameter file 
 settings_file = importdata('cal2plus_settings.csv');

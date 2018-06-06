@@ -18,29 +18,29 @@ while page > 0
     sample2show(:,:,1) = uint16(final_cell_segments(:,:,...
         page));
     
-    subplot(2,4,1)
+    subplot(1,3,1)
     
     imshow(sample2show)
     
-    if exist('map','var')
-        if ~isempty(map{page, 2})
-            tempmap = map{page,2};
-
-            subplot(2,4,2)
-
-            imshow(map{page,1},'DisplayRange',[0 0.5])
-
-            subplot(2,4,3)
-
-            imshow(-tempmap(:,:,1),[])
-
-            subplot(2,4,4)
-
-            imshow(tempmap(:,:,2).*tempmap(:,:,3),[])
-        end
-    end
+%     if exist('map','var')
+%         if ~isempty(map{page, 2})
+%             tempmap = map{page,2};
+% 
+%             subplot(2,4,2)
+% 
+%             imshow(map{page,1},'DisplayRange',[0 0.5])
+% 
+%             subplot(2,4,3)
+% 
+%             imshow(-tempmap(:,:,1),[])
+% 
+%             subplot(2,4,4)
+% 
+%             imshow(tempmap(:,:,2).*tempmap(:,:,3),[])
+%         end
+%     end
     
-    subplot(2,4,5:8)
+    subplot(1,3,2:3)
     
     plot(mat2gray(final_cell_sig( min(page,n_rois),:)));
     
